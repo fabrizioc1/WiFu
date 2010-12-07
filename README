@@ -1,0 +1,10 @@
+A custom version of wesside-ng with some support for WPA
+
+Installation:
+This was originally developed in Backtrack Linux (Debian).
+You need the SDL development libraries to be installed.
+
+Run:
+aptitude install libsdl-dev
+aptitude install libsdl-ruby
+
