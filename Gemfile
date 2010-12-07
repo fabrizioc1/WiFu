@@ -2,4 +2,4 @@
 source "http://rubygems.org"
 
 gem "pcaprub"
-gem "racket"
+

@@ -1,10 +1,10 @@
 A custom version of wesside-ng with some support for WPA
 
 Installation:
-This was originally developed in Backtrack Linux (Debian).
-You need the SDL development libraries to be installed.
+1. gem install bundler
+2. bundle install
+3. copy the latest versions of bit-struct and racket from metasploit (optional: there are included)
 
-Run:
-aptitude install libsdl-dev
-aptitude install libsdl-ruby
+
+
 
