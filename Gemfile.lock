@@ -1,10 +1,24 @@
+GIT
+  remote: https://github.com/shadowbq/pcaprub.git
+  revision: 4e7313421ae87b7631e42a169204d4a37620446e
+  specs:
+    pcaprub (0.11.2)
+
+GIT
+  remote: https://github.com/todb/packetfu.git
+  revision: 70aa7ae0b02c82aabc936b3ee5f0f5cc59464816
+  specs:
+    packetfu (1.1.5)
+
 GEM
   remote: http://rubygems.org/
   specs:
-    pcaprub (0.9.2)
+    rake (0.9.2.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  pcaprub
+  packetfu!
+  pcaprub!
+  rake

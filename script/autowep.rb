@@ -1,19 +1,29 @@
 #!/usr/bin/env ruby
-# If you have MetaSploit 3 installed you can run it using their included Ruby
+$: << File.expand_path('../../lib',__FILE__)
 require 'rubygems'
-#require "bundler/setup"
-puts "lib: #{File.expand_path('../../lib',__FILE__)}"
-$LOAD_PATH.unshift(File.expand_path('../../lib',__FILE__))
+require 'bundler/setup'
 require 'pcaprub'
-require 'racket'
+require 'packetfu'
+require 'wifi_packet'
 
-capture = Pcap.open_live("mon0",1344, true, 1)
-capture.each do |packet|
-  p = Racket::L2::Ethernet.new(packet)
-  puts "#{p.pretty}"
-  puts
+
+TARGET_AP_ADDR = PacketFu::EthHeader.mac2str("68:7F:74:A3:C0:C5")
+BROADCAST_ADDR = PacketFu::EthHeader.mac2str("FF:FF:FF:FF:FF:FF")
+
+packet_count = 0
+capture = Pcap.open_live("mon0",0xffff, true, 1)
+puts "capture started ..."
+capture.each do |stream|
+  packet = WifiPacket.new.read(stream)
+  #if packet.is_beacon? && packet.src_addr == TARGET_AP_ADDR && packet.dst_addr == BROADCAST_ADDR
+  if packet.is_beacon?
+    puts packet
+    File.open("packet#{'%02d'%packet_count}.bin","wb"){ |file| file.write stream }
+    File.open("packet#{'%02d'%packet_count}.txt","w"){ |file| file.puts packet }
+    packet_count+=1
+  end
 end
 
-#capture.close
+capture.close
 
 
