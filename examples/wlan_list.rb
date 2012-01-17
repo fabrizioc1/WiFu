@@ -15,9 +15,8 @@ packet_count = 0
 capture = PacketFu::Capture.new(:iface => "mon0", :start => true)
 
 puts "capture started ..."
-capture.each do |stream|
+capture.stream.each do |stream|
   packet = WifiPacket.new.read(stream)
-  #if packet.is_beacon? && packet.src_addr == TARGET_AP_ADDR && packet.dst_addr == BROADCAST_ADDR
   if packet.is_beacon?
     puts packet
     #File.open("packet#{'%02d'%packet_count}.bin","wb"){ |file| file.write stream }
