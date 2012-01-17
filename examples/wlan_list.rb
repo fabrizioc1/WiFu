@@ -11,11 +11,11 @@ TARGET_AP_ADDR = PacketFu::EthHeader.mac2str("68:7F:74:A3:C0:C5")
 BROADCAST_ADDR = PacketFu::EthHeader.mac2str("FF:FF:FF:FF:FF:FF")
 
 packet_count = 0
-#capture = Pcap.open_live("mon0",0xffff, true, 1)
-capture = PacketFu::Capture.new(:iface => "mon0", :start => true)
+capture = Pcap.open_live("mon0",0xffff, true, 1)
+#capture = PacketFu::Capture.new(:iface => "mon0", :start => true)
 
 puts "capture started ..."
-capture.stream.each do |stream|
+capture.each do |stream|
   packet = WifiPacket.new.read(stream)
   if packet.is_beacon?
     puts packet
