@@ -12,7 +12,7 @@ BROADCAST_ADDR = PacketFu::EthHeader.mac2str("FF:FF:FF:FF:FF:FF")
 
 packet_count = 0
 #capture = Pcap.open_live("mon0",0xffff, true, 1)
-capture = Capture.new(:iface => "mon0", :start => true)
+capture = PacketFu::Capture.new(:iface => "mon0", :start => true)
 
 puts "capture started ..."
 capture.each do |stream|
