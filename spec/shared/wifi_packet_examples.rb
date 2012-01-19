@@ -1,6 +1,3 @@
-require 'spec_helper'
-require 'wifi_packet'
-
 shared_examples_for "Wifi Packet" do
   
   it "should have protocol version equal to zero" do

@@ -2,6 +2,7 @@
 source "http://rubygems.org"
 
 gem "rake"
+gem "active_support"
 gem "pcaprub", :git => "https://github.com/shadowbq/pcaprub.git"
 gem "packetfu", :git => "https://github.com/todb/packetfu.git"
 

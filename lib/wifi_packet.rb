@@ -1,3 +1,7 @@
+#require 'delegate'
+#require 'active_support/core_ext/class/delegating_attributes'
+require 'active_support/core_ext/module/delegation'
+require 'active_support/core_ext/object/blank'
 require 'packetfu'
 require 'wifi_beacon'
 require 'pp'
@@ -26,7 +30,10 @@ class WifiPacket
   # PLCP header (data after preamble and before MAC PDU)
   # Only radiotap is supported right now
   attr_accessor :radio_tap
-  
+
+  # Delegate methods
+  delegate :ssid,   :to => :beacon
+
   def read(str)
     PacketFu.force_binary(str)    
     @size            = str.bytesize

@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'wifi_packet'
-require 'spec/shared/wifi_packet_examples'
 
 describe "Wifi Beacon" do
 
@@ -12,7 +10,7 @@ describe "Wifi Beacon" do
   it_behaves_like "Wifi Packet"
   
   it "should have a valid SSID" do
-    @packet.beacon.ssid.should_not be_nil
+    @packet.ssid.should_not be_blank
   end
   
 end
