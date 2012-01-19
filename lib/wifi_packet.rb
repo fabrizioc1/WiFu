@@ -3,7 +3,7 @@ require 'wifi_beacon'
 require 'pp'
 
 class WifiPacket
-  # Max MPDU size is 2346 bytes, payload(data) varies according to encryption scheme
+  # Max MPDU size is 2346 bytes, payload size varies according to encryption scheme
   MAX_SIZE = 2346
 
   TYPE_MGMT = 0
@@ -12,15 +12,21 @@ class WifiPacket
   TYPE_CTRL = 1
   TYPE_DATA = 2
   
-  attr_accessor :frame_ctrl, :duration, :address_1, :address_2, :address_3, :seq_ctrl, :address_4, :frame_body, :fcs
+  attr_accessor :frame_ctrl, :duration, :address_1, :address_2, :address_3 
+  attr_accessor :seq_ctrl, :address_4, :frame_body, :fcs
   attr_accessor :src_addr, :dst_addr, :xmit_addr, :rcvr_addr
 
   # Frame control fields
-  attr_accessor :flags, :order, :wep, :more_data, :power, :retry, :more_frag, :from_ds, :to_ds, :frame_type, :frame_subtype, :proto
+  attr_accessor :flags, :order, :wep, :more_data, :power, :retry 
+  attr_accessor :more_frag, :from_ds, :to_ds, :frame_type, :frame_subtype, :protocol
   
   # Payload fields
   attr_accessor :beacon, :start, :radio_tap, :size
 
+  # PLCP header (data after preamble and before MAC PDU)
+  # Only radiotap is supported right now
+  attr_accessor :radio_tap
+  
   def read(str)
     PacketFu.force_binary(str)    
     @size            = str.bytesize
@@ -67,12 +73,13 @@ class WifiPacket
   end
 
   def str2mac(str)
-    PacketFu::EthHeader.str2mac(str).upcase
+    PacketFu::EthHeader.str2mac(str).upcase unless str.nil? || str.empty?
   end
 
   def to_s
     str = "start=%02d size=%d type=%d subtype=%d flags=%08b src=%13s dst=%13s duration=%d " % 
-          [start, size, frame_type, frame_subtype, flags, str2mac(src_addr), str2mac(dst_addr), duration]    
+          [start, size, frame_type, frame_subtype, flags, 
+           str2mac(src_addr), str2mac(dst_addr), duration]    
     str << beacon.to_s if is_beacon?
   end
 
@@ -83,5 +90,13 @@ class WifiPacket
   def has_addr?(addr)
     [src_addr,dst_addr,xmit_addr,rcvr_addr].include?(addr)
   end
-    
+  
+  def src_mac
+    str2mac(self.src_addr)
+  end
+
+  def dst_mac
+    str2mac(self.src_addr)
+  end
+
 end

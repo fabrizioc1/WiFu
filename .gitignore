@@ -1,1 +1,8 @@
-*~
+# Dont version control Gemfile.lock for gem files
+Gemfile.lock
+# Bundler setup for Windows machines
+.bundle/
+vendor/gems/
+# Exclude VIM swap files
+*.swp
+tmp/

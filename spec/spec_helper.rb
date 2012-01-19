@@ -1,6 +1,8 @@
 # Add this projects 'lib' directory to load path
-$LOAD_PATH.unshift(File.expand_path('../../lib',__FILE__))
-require 'simplecov'
+lib = File.expand_path('../lib/', __FILE__)
+$: << lib unless $:.include?(lib)
+require 'bundler/setup'
+#require 'simplecov'
 
 RSpec.configure do |config|
   # == Mock Framework
