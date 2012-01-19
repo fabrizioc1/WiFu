@@ -5,11 +5,13 @@ shared_examples_for "Wifi Packet" do
   end
   
   it "should have a valid frame type" do
-    @packet.frame_type.should be_integer
+    @packet.frame_type.should be >= 0
+    @packet.frame_type.should be <= 3     
   end
 
   it "should have a valid frame sub-type" do
-    @packet.frame_subtype.should be_integer
+    @packet.frame_type.should be >= 0    
+    @packet.frame_type.should be <= 15    
   end
 
   it "should have a valid source MAC address" do
