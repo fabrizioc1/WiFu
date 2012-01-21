@@ -3,7 +3,9 @@ lib = File.expand_path('../lib/', __FILE__)
 $: << lib unless $:.include?(lib)
 require 'bundler/setup'
 require 'wifi_packet'
+require 'spec/shared/wifi_packet_matchers'
 require 'spec/shared/wifi_packet_examples'
+#TODO: Test with MRI 1.9 
 #require 'simplecov'
 
 RSpec.configure do |config|

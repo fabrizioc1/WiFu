@@ -15,11 +15,11 @@ shared_examples_for "Wifi Packet" do
   end
 
   it "should have a valid source MAC address" do
-    @packet.src_mac.should match(/^(?:[A-F0-9]{2}:){5}[A-F0-9]{2}$/)
+    @packet.src_mac.should be_a_mac_address
   end
 
   it "should have a valid destination MAC address" do
-    @packet.dst_mac.should match(/^(?:[A-F0-9]{2}:){5}[A-F0-9]{2}$/)
+    @packet.dst_mac.should be_a_mac_address
   end
 
 end

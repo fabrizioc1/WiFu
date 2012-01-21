@@ -8,11 +8,11 @@ describe "Wifi Beacon" do
   end
   
   it "should have a management frame type" do
-    @packet.frame_type.should == WifiPacket::TYPE_MGMT
+    @packet.should be_management
   end
 
   it "should have a beacon frame sub-type" do
-    @packet.frame_subtype.should == WifiPacket::SUBTYPE_MGMT_BEACON
+    @packet.should be_beacon
   end
 
   it "should have a valid SSID" do

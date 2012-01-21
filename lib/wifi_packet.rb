@@ -1,7 +1,7 @@
-#require 'delegate'
-#require 'active_support/core_ext/class/delegating_attributes'
-require 'active_support/core_ext/module/delegation'
+require 'delegate'
+require 'active_support/core_ext/class/delegating_attributes'
 require 'active_support/core_ext/object/blank'
+require 'active_support/core_ext/object/try'
 require 'packetfu'
 require 'wifi_beacon'
 require 'pp'
@@ -31,9 +31,6 @@ class WifiPacket
   # Only radiotap is supported right now
   attr_accessor :radio_tap
 
-  # Delegate methods
-  delegate :ssid,   :to => :beacon
-
   def read(str)
     PacketFu.force_binary(str)    
     @size            = str.bytesize
@@ -62,7 +59,7 @@ class WifiPacket
     @seq_ctrl        = str[start+22,2]
     @fcs             = str[-32,32]
     
-    if is_beacon?
+    if beacon?
       @xmit_addr = @address_3
       @src_addr  = @address_2
       @dst_addr  = @address_1
@@ -90,8 +87,12 @@ class WifiPacket
     str << beacon.to_s if is_beacon?
   end
 
-  def is_beacon?
-    frame_type == TYPE_MGMT && frame_subtype == SUBTYPE_MGMT_BEACON
+  def management?
+    frame_type == TYPE_MGMT    
+  end
+  
+  def beacon?
+    management? && frame_subtype == SUBTYPE_MGMT_BEACON
   end
   
   def has_addr?(addr)
@@ -106,4 +107,8 @@ class WifiPacket
     str2mac(self.src_addr)
   end
 
+  def ssid
+    beacon.try(:ssid)
+  end
+  
 end
