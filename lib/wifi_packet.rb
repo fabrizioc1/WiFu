@@ -66,7 +66,7 @@ class WifiPacket
       
       @body_size  = @size - (start + 24) + 1
       @frame_body = str[start+24..@size-1]      
-      @beacon     = WifiBeacon.new.read(@frame_body) 
+      @beacon     = WifiBeacon.new.read(@frame_body)
     else
       @address_4  = str[start+24,6]
       @body_size  = @size - (start + 30) + 1
@@ -81,10 +81,12 @@ class WifiPacket
   end
 
   def to_s
-    str = "start=%02d size=%d type=%d subtype=%d flags=%08b src=%13s dst=%13s duration=%d " % 
-          [start, size, frame_type, frame_subtype, flags, 
-           str2mac(src_addr), str2mac(dst_addr), duration]    
-    str << beacon.to_s if is_beacon?
+    # str = "start=%02d size=%d type=%d subtype=%d flags=%08b src=%13s dst=%13s duration=%d " % 
+    #       [start, size, frame_type, frame_subtype, flags, 
+    #        str2mac(src_addr), str2mac(dst_addr), duration]    
+    # str << beacon.to_s if beacon?
+    str = "start=#{start} size=#{size} "
+    str << beacon.to_s if beacon?
   end
 
   def management?
